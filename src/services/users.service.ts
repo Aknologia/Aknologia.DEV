@@ -5,6 +5,14 @@ import { User, UserDocument } from 'src/db/schemas/user.schema';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { AuthUserDto } from 'src/dto/auth-user.dto';
 import { compare, hash } from 'bcrypt';
+import { UserDto } from 'src/dto/user.dto';
+import { Request } from 'express';
+
+declare module 'express-session' {
+  interface Session {
+    user: string;
+  }
+}
 
 @Injectable()
 export class UsersService {
@@ -13,7 +21,10 @@ export class UsersService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  public async create(createUserDto: CreateUserDto): Promise<User> {
+  public async create(
+    createUserDto: CreateUserDto,
+    request: Request,
+  ): Promise<User> {
     const hashedPassword = await hash(createUserDto.password, 10);
     try {
       const createdUser = new this.userModel({
@@ -27,6 +38,9 @@ export class UsersService {
       });
       await createdUser.save();
       createdUser.password = undefined;
+
+      request.session.user = this.serialize(createdUser);
+      request.session.save();
       return createdUser;
     } catch (error) {
       if (error?.name === 'MongoServerError' && error?.code === 11000) {
@@ -42,8 +56,8 @@ export class UsersService {
     }
   }
 
-  public async auth(authUserDto: AuthUserDto): Promise<User> {
-    const user = await this.findByEmail(authUserDto.email);
+  public async auth(authUserDto: AuthUserDto, request: Request): Promise<User> {
+    const user = await this.findByEmailAsDocument(authUserDto.email);
     const isPasswordMatching = await compare(
       authUserDto.password,
       user.password,
@@ -55,10 +69,23 @@ export class UsersService {
       );
 
     user.password = undefined;
+
+    request.session.user = this.serialize(user);
+    request.session.save();
     return user;
   }
 
-  async findByEmail(email: string): Promise<User> {
+  public serialize(user: UserDocument) {
+    return user.id;
+  }
+
+  public async deserialize(id: string): Promise<User> {
+    const user = await this.find(id);
+    user.password = undefined;
+    return user;
+  }
+
+  public async findByEmail(email: string): Promise<User> {
     const user = await this.userModel.findOne({
       email: email,
     });
@@ -70,7 +97,31 @@ export class UsersService {
     return user;
   }
 
-  async findAll(): Promise<User[]> {
+  public async findByEmailAsDocument(email: string): Promise<UserDocument> {
+    const user = await this.userModel.findOne({
+      email: email,
+    });
+    if (!user)
+      throw new HttpException(
+        'Invalid email and/or password.',
+        HttpStatus.BAD_REQUEST,
+      );
+    return user;
+  }
+
+  public async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
+  }
+
+  public async find(id: string): Promise<User> {
+    return this.userModel.findById(id).exec();
+  }
+
+  public async update(id: string, userDto: UserDto): Promise<User> {
+    return this.userModel.findByIdAndUpdate(id, userDto).exec();
+  }
+
+  public async delete(id: string): Promise<User> {
+    return this.userModel.findByIdAndRemove(id).exec();
   }
 }

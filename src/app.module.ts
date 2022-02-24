@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UriProvider } from './db/db-uri.provider';
 import { UsersModule } from './modules/users.module';
-import { UsersService } from './services/users.service';
-import { AuthController } from './v1/auth/auth.controller';
+import { UserController } from './v1/user/user.controller';
 
 @Module({
   imports: [
@@ -13,9 +13,7 @@ import { AuthController } from './v1/auth/auth.controller';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: `mongodb+srv://process:${configService.get<string>(
-          'DB',
-        )}@root.sbwjy.mongodb.net/main?retryWrites=true&w=majority`,
+        uri: new UriProvider(configService).getMain(),
       }),
       inject: [ConfigService],
     }),
