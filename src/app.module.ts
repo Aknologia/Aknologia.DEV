@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UriProvider } from './db/db-uri.provider';
 import { UsersModule } from './modules/users.module';
-import { UserController } from './v1/user/user.controller';
 
 @Module({
   imports: [

@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Param, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { UsersService } from 'src/services/users.service';
 
@@ -12,5 +12,10 @@ export class UserController {
   @Get()
   async getCurrent(@Req() request: Request) {
     return this.usersService.deserialize(request.session.user);
+  }
+
+  @Get(':id')
+  async getUser(@Param('id') id: string) {
+    return this.usersService.deserializePublic(id);
   }
 }

@@ -3,7 +3,11 @@ import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
-@Schema()
+@Schema({
+  toJSON: {
+    virtuals: true,
+  },
+})
 export class User {
   @Prop({
     unique: true,
@@ -27,6 +31,8 @@ export class User {
   })
   tag: number;
 
+  full_name: string;
+
   @Prop({
     required: true,
   })
@@ -43,4 +49,9 @@ export class User {
   createdAt: Date;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.virtual('full_name').get(function (this: UserDocument) {
+  return `${this.username}#${this.tag}`;
+});
+
+export { UserSchema };

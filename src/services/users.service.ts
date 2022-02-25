@@ -80,8 +80,22 @@ export class UsersService {
   }
 
   public async deserialize(id: string): Promise<User> {
-    const user = await this.find(id);
-    user.password = undefined;
+    try {
+      const user = await this.find(id);
+      user.password = undefined;
+      user.full_name = `${user.username}#${user.tag}`;
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        `Unknown user with ID '${id}'`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  public async deserializePublic(id: string): Promise<User> {
+    const user = await this.deserialize(id);
+    user.email = undefined;
     return user;
   }
 
@@ -114,14 +128,35 @@ export class UsersService {
   }
 
   public async find(id: string): Promise<User> {
-    return this.userModel.findById(id).exec();
+    try {
+      return await this.userModel.findById(id);
+    } catch (error) {
+      throw new HttpException(
+        `Unknown user with ID '${id}'`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   public async update(id: string, userDto: UserDto): Promise<User> {
-    return this.userModel.findByIdAndUpdate(id, userDto).exec();
+    try {
+      return await this.userModel.findByIdAndUpdate(id, userDto);
+    } catch (error) {
+      throw new HttpException(
+        `Unknown user with ID '${id}'`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   public async delete(id: string): Promise<User> {
-    return this.userModel.findByIdAndRemove(id).exec();
+    try {
+      return await this.userModel.findByIdAndRemove(id);
+    } catch (error) {
+      throw new HttpException(
+        `Unknown user with ID '${id}'`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }
