@@ -5,6 +5,9 @@
   "author": "Aknologia",
   "private": true,
   "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": "^17.6.0"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
