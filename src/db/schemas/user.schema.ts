@@ -6,6 +6,11 @@ export type UserDocument = User & Document;
 @Schema({
   toJSON: {
     virtuals: true,
+    transform: (doc, ret, game) => {
+      ret.__v = undefined;
+      ret._id = undefined;
+      ret.createdAt = ret.createdAt.getTime();
+    },
   },
 })
 export class User {
@@ -47,6 +52,8 @@ export class User {
     required: true,
   })
   createdAt: Date;
+
+  id: any;
 }
 
 const UserSchema = SchemaFactory.createForClass(User);

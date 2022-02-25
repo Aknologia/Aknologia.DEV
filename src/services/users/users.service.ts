@@ -18,64 +18,14 @@ declare module 'express-session' {
 export class UsersService {
   constructor(
     @InjectConnection() private connection: Connection,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(User.name) public readonly userModel: Model<UserDocument>,
   ) {}
 
-  public async create(
-    createUserDto: CreateUserDto,
-    request: Request,
-  ): Promise<User> {
-    const hashedPassword = await hash(createUserDto.password, 10);
-    try {
-      const createdUser = new this.userModel({
-        email: createUserDto.email,
-        username: createUserDto.username,
-        tag: (Math.floor(Math.random() * 10000) + 10000)
-          .toString()
-          .substring(1),
-        password: hashedPassword,
-        createdAt: Date.now(),
-      });
-      await createdUser.save();
-      createdUser.password = undefined;
-
-      request.session.user = this.serialize(createdUser);
-      request.session.save();
-      return createdUser;
-    } catch (error) {
-      if (error?.name === 'MongoServerError' && error?.code === 11000) {
-        throw new HttpException(
-          'Email already in use.',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      throw new HttpException(
-        'Something went wrong',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+  public async create(user: UserDocument): Promise<User> {
+    return user.save();
   }
 
-  public async auth(authUserDto: AuthUserDto, request: Request): Promise<User> {
-    const user = await this.findByEmailAsDocument(authUserDto.email);
-    const isPasswordMatching = await compare(
-      authUserDto.password,
-      user.password,
-    );
-    if (!isPasswordMatching)
-      throw new HttpException(
-        'Invalid email and/or password.',
-        HttpStatus.BAD_REQUEST,
-      );
-
-    user.password = undefined;
-
-    request.session.user = this.serialize(user);
-    request.session.save();
-    return user;
-  }
-
-  public serialize(user: UserDocument) {
+  public serialize(user: User) {
     return user.id;
   }
 

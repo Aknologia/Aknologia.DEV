@@ -1,6 +1,7 @@
-import { Controller, Get, Param, Req } from '@nestjs/common';
-import { Request } from 'express';
-import { UsersService } from 'src/services/users.service';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import UserRequest from 'src/auth/user-request.interface';
+import { CookieAuthGuard } from 'src/guard/cookie.guard';
+import { UsersService } from 'src/services/users/users.service';
 
 @Controller({
   path: 'user',
@@ -9,11 +10,13 @@ import { UsersService } from 'src/services/users.service';
 export class UserController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(CookieAuthGuard)
   @Get()
-  async getCurrent(@Req() request: Request) {
-    return this.usersService.deserialize(request.session.user);
+  async getCurrent(@Req() request: UserRequest) {
+    return request.user;
   }
 
+  @UseGuards(CookieAuthGuard)
   @Get(':id')
   async getUser(@Param('id') id: string) {
     return this.usersService.deserializePublic(id);

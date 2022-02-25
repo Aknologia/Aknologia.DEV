@@ -1,23 +1,55 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Req,
+  UseGuards,
+  UseInterceptors,
+  Header,
+} from '@nestjs/common';
 import { Request } from 'express';
-import { AuthUserDto } from 'src/dto/auth-user.dto';
+import UserRequest from 'src/auth/user-request.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
-import { UsersService } from 'src/services/users.service';
+import { CookieAuthGuard } from 'src/guard/cookie.guard';
+import { LocalAuthGuard } from 'src/guard/local.guard';
+import { AuthenticationService } from 'src/services/auth/auth.service';
 
 @Controller({
   path: 'auth',
   version: ['1'],
 })
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly authenticationService: AuthenticationService) {}
 
-  @Post('login')
-  authLogin(@Body() authUserDto: AuthUserDto, @Req() request: Request) {
-    return this.usersService.auth(authUserDto, request);
+  @Post('register')
+  authCreate(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
+    return this.authenticationService.register(createUserDto);
   }
 
-  @Post('create')
-  authCreate(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
-    return this.usersService.create(createUserDto, request);
+  @HttpCode(200)
+  @UseGuards(LocalAuthGuard)
+  @Header('content-type', 'application/json')
+  @Post('login')
+  authLogin(@Req() request: UserRequest) {
+    return JSON.stringify(request.user);
+  }
+
+  @HttpCode(200)
+  @UseGuards(CookieAuthGuard)
+  @Get()
+  async auth(@Req() request: UserRequest) {
+    return request.user;
+  }
+
+  @HttpCode(200)
+  @UseGuards(CookieAuthGuard)
+  @Post('logout')
+  async logOut(@Req() request: UserRequest) {
+    request.logOut();
+    request.session.cookie.maxAge = 0;
   }
 }

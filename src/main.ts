@@ -2,6 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
+import passport from 'passport';
 import { AppModule } from './app.module';
 import { UriProvider } from './db/db-uri.provider';
 import { ErrorHandler } from './util/error.handler';
@@ -26,6 +27,10 @@ async function bootstrap() {
   );
   Logger.log('Registered Express Sessions', 'Sessions');
   Logger.debug('Connected to MongoDB Session Database', 'Sessions');
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+  Logger.log('Initialized Passport', 'AuthService');
 
   await app.listen(process.env.PORT);
   Logger.log(
