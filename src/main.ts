@@ -8,6 +8,7 @@ import { UriProvider } from './db/db-uri.provider';
 import { ErrorHandler } from './util/error.handler';
 
 async function bootstrap() {
+  process.env.START_TIME = Date.now().toString();
   ErrorHandler.hook();
 
   const app = await NestFactory.create(AppModule);

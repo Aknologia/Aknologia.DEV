@@ -6,7 +6,16 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getRoot() {
+    return {
+      uptime: Date.now() - parseInt(process.env.START_TIME),
+      docs: 'https://aknologia.dev/api.docs',
+      endpoints: [
+        {
+          version: 1,
+          path: '/v1',
+        },
+      ],
+    };
   }
 }
