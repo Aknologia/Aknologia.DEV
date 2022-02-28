@@ -9,8 +9,8 @@ export default abstract class Utils {
     const minutes = Math.floor(dur / 60);
     dur -= minutes * 60;
 
-    return `${days > 0 ? `${days}d` : ''}${hours > 0 ? `${hours}h` : ''}${
-      minutes > 0 ? `${minutes}m` : ''
-    }${dur}s`;
+    return `${days > 0 ? `${days}d ` : ''}${hours > 0 ? `${hours}h ` : ''}${
+      minutes > 0 ? `${minutes}m ` : ''
+    }${dur.toFixed(1)}s`;
   }
 }

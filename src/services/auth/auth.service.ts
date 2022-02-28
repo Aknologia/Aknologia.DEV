@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { Request } from 'express';
 import { AuthUserDto } from 'src/dto/auth-user.dto';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { UsersService } from '../users/users.service';

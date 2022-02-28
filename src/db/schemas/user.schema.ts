@@ -49,6 +49,11 @@ export class User {
   tags: string[];
 
   @Prop({
+    default: 0,
+  })
+  rank_id: number;
+
+  @Prop({
     required: true,
   })
   createdAt: Date;
