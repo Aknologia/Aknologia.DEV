@@ -33,9 +33,9 @@ async function bootstrap() {
   app.use(passport.session());
   Logger.log('Initialized Passport', 'AuthService');
 
-  await app.listen(process.env.PORT);
+  await app.listen(process.env.PORT || 3000);
   Logger.log(
-    `Listening to PORT: ${process.env.PORT}`,
+    `Listening to PORT: ${process.env.PORT || 3000}`,
     `Application running on: ${await app.getUrl()}`,
     'root',
   );

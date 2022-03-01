@@ -177,6 +177,11 @@ export class User {
   rank_id: number;
 
   @Prop({
+    default: 0,
+  })
+  rank_id: number;
+
+  @Prop({
     required: true,
   })
   data: NestedUserData;
