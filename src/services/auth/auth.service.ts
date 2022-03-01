@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
 import { AuthUserDto } from 'src/dto/auth-user.dto';
@@ -14,13 +14,18 @@ export class AuthenticationService {
 
     try {
       const createdUser = new this.usersService.userModel({
+        createdAt: Date.now(),
         email: createUserDto.email,
         username: createUserDto.username,
         tag: (Math.floor(Math.random() * 10000) + 10000)
           .toString()
           .substring(1),
         password: hashedPassword,
-        createdAt: Date.now(),
+        data: {
+          hp: {},
+          xp: {},
+          stats: {},
+        },
       });
 
       await this.usersService.create(createdUser);
@@ -34,6 +39,8 @@ export class AuthenticationService {
           HttpStatus.BAD_REQUEST,
         );
       }
+      Logger.error(error);
+      console.log(error.stack);
       throw new HttpException(
         'Something went wrong',
         HttpStatus.INTERNAL_SERVER_ERROR,

@@ -5,6 +5,127 @@ export type UserDocument = User & Document;
 
 @Schema({
   toJSON: {
+    transform: (doc, ret, game) => {
+      ret._id = undefined;
+    },
+  },
+})
+class NestedXP {
+  @Prop({
+    default: 0,
+  })
+  current: number;
+
+  @Prop({
+    default: 50,
+  })
+  needed: number;
+}
+
+@Schema({
+  toJSON: {
+    transform: (doc, ret, game) => {
+      ret._id = undefined;
+    },
+  },
+})
+class NestedHP {
+  @Prop({
+    default: 100,
+  })
+  current: number;
+
+  @Prop({
+    default: 100,
+  })
+  max: number;
+}
+
+@Schema({
+  toJSON: {
+    transform: (doc, ret, game) => {
+      ret._id = undefined;
+    },
+  },
+})
+class NestedStats {
+  @Prop({
+    default: 5,
+  })
+  strength: number;
+
+  @Prop({
+    default: 5,
+  })
+  constitution: number;
+
+  @Prop({
+    default: 5,
+  })
+  dexterity: number;
+
+  @Prop({
+    default: 5,
+  })
+  intelligence: number;
+
+  @Prop({
+    default: 5,
+  })
+  luck: number;
+}
+
+@Schema({
+  toJSON: {
+    transform: (doc, ret, game) => {
+      ret._id = undefined;
+    },
+  },
+})
+class NestedUserData {
+  @Prop({
+    default: 1,
+  })
+  level: number;
+
+  @Prop({
+    required: true,
+  })
+  hp: NestedHP;
+
+  @Prop({
+    required: true,
+  })
+  xp: NestedXP;
+
+  @Prop({
+    required: true,
+  })
+  stats: NestedStats;
+
+  @Prop({
+    default: 0,
+  })
+  gp: number;
+
+  @Prop({
+    default: [],
+  })
+  skills: string[];
+
+  @Prop({
+    default: [],
+  })
+  inventory: string[];
+
+  @Prop({
+    default: [],
+  })
+  equipement: string[];
+}
+
+@Schema({
+  toJSON: {
     virtuals: true,
     transform: (doc, ret, game) => {
       ret.__v = undefined;
@@ -14,6 +135,13 @@ export type UserDocument = User & Document;
   },
 })
 export class User {
+  id: any;
+
+  @Prop({
+    required: true,
+  })
+  createdAt: Date;
+
   @Prop({
     unique: true,
     match:
@@ -44,16 +172,14 @@ export class User {
   password: string;
 
   @Prop({
-    default: [],
+    default: 0,
   })
-  tags: string[];
+  rank_id: number;
 
   @Prop({
     required: true,
   })
-  createdAt: Date;
-
-  id: any;
+  data: NestedUserData;
 }
 
 const UserSchema = SchemaFactory.createForClass(User);

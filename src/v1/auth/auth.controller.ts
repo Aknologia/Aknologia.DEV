@@ -26,8 +26,9 @@ export class AuthController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
   @Post('register')
-  authCreate(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
-    return this.authenticationService.register(createUserDto);
+  @Header('Content-Type', 'application/json')
+  async authCreate(@Body() createUserDto: CreateUserDto) {
+    return (await this.authenticationService.register(createUserDto)).toJSON();
   }
 
   @HttpCode(200)
