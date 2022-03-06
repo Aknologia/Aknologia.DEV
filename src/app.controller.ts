@@ -13,7 +13,7 @@ export class AppController {
       full_uptime: Utils.durationToString(
         Date.now() - parseInt(process.env.START_TIME),
       ),
-      docs: 'https://aknologia.dev/api.docs',
+      docs: '/docs',
       endpoints: [
         {
           version: 1,
