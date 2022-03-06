@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import Utils from './util/utils.class';
 
@@ -21,5 +21,12 @@ export class AppController {
         },
       ],
     };
+  }
+
+  @Get('docs')
+  getDocs(@Res() response) {
+    return response.redirect(
+      'https://documenter.getpostman.com/view/19755036/UVkvKYV5',
+    );
   }
 }
