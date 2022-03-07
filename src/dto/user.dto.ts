@@ -20,7 +20,7 @@ export class UserDto {
   @IsNotEmpty()
   @MinLength(4)
   @MaxLength(20)
-  @Matches(/^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/g)
+  @Matches(/^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/)
   username: string;
 
   @IsNotEmpty()
