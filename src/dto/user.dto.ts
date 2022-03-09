@@ -1,15 +1,12 @@
 import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   Length,
   Matches,
   MaxLength,
-  MinLength,
-  ValidateNested,
+  MinLength
 } from 'class-validator';
 
 export class UserDto {

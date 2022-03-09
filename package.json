@@ -45,6 +45,8 @@
     "express-session": "^1.17.2",
     "mongodb": "^4.4.0",
     "mongoose": "^6.2.3",
+    "newman": "^5.3.2",
+    "newman-reporter-html": "^1.0.5",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
