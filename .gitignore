@@ -1,6 +1,9 @@
 # dotenv
 .env
 
+#newman
+/newman
+
 # compiled output
 /dist
 /node_modules
