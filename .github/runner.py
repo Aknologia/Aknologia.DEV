@@ -32,7 +32,7 @@ with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
         for l in lines[0]: flines.append(l)
         for i in range(len(lines[1])):
             if(len(lines[1]) <= i): flines.append('|'+lines[1][i] + ' | |')
-            else: flines.append(lines[1][i])
+            else: flines[i] += lines[1][i]
         
         # Replace Old Data
         start, end = data.index(plStart) + len(plStart), data.index(plEnd)-1
