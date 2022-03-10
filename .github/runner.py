@@ -27,7 +27,7 @@ with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
             lines[0].append(f'| [{pkg}](https://www.npmjs.com/package/{pkg}) | `{ver}` |')
         for pkg in list(latterHalf):
             ver = packages['dependencies'][pkg]
-            lines[0].append(f' [{pkg}](https://www.npmjs.com/package/{pkg}) | `{ver}` |')
+            lines[1].append(f' [{pkg}](https://www.npmjs.com/package/{pkg}) | `{ver}` |')
         flines = []
         for l in lines[0]: flines.append(l)
         for i in range(len(lines[1])):
