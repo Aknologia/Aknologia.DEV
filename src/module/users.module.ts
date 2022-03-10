@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { LocalSerializer } from '../auth/local.serializer';
 import { LocalStrategy } from '../auth/local.strategy';
@@ -11,7 +11,10 @@ import { UserController } from '../v1/user/user.controller';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature(
+      [{ name: User.name, schema: UserSchema }],
+      'Users',
+    ),
     PassportModule,
   ],
   controllers: [AuthController, UserController],

@@ -6,6 +6,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UriProvider } from './db/db-uri.provider';
+import { UsersProviders } from './db/users.provider';
 import { DevModule } from './module/dev.module';
 import { UsersModule } from './module/users.module';
 
@@ -20,18 +21,12 @@ import { UsersModule } from './module/users.module';
         limit: config.get<number>('THROTTLE_LIMIT'),
       }),
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
-        uri: new UriProvider(config).getMain(),
-      }),
-    }),
     UsersModule,
     DevModule,
   ],
   controllers: [AppController],
   providers: [
+    ...UsersProviders,
     AppService,
     {
       provide: APP_GUARD,
