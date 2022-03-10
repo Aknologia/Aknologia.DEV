@@ -37,7 +37,7 @@ with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
         # Replace Old Data
         start, end = data.index(plStart) + len(plStart), data.index(plEnd)-1
         oldData = data[start:end]
-        data = data.replace(oldData, "\n| Package | Version | | |\n| ------- | ------- | ------- | ------- |\n"+"\n".join(lines))
+        data = data.replace(oldData, "\n| Package | Version | | |\n| ------- | ------- | ------- | ------- |\n"+"\n".join(flines))
         
         # Write new Data if changed
         if data != ref:
