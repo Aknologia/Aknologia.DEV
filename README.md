@@ -4,7 +4,8 @@
 
 ---
 
-<!-- START -->| Package | Version |
+<!-- START -->
+| Package | Version |
 | ------- | ------- |
 | [@nestjs/common](https://www.npmjs.com/package/@nestjs/common) | `^8.0.0` |
 | [@nestjs/config](https://www.npmjs.com/package/@nestjs/config) | `^1.2.0` |
