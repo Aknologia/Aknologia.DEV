@@ -2,6 +2,7 @@
 
 import json
 import os
+import urllib.parse
 
 def commit():
     os.system('git config --global user.name "github.actions"')
@@ -11,6 +12,7 @@ def commit():
     os.system('git push')
 
 plStart, plEnd = '<!-- START -->', '<!-- END -->';
+bgStart, bgEnd = '<!-- BADGE START -->', '<!-- BADGE END -->';
 
 with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
     packages = json.loads(packageFile.read())
@@ -39,6 +41,11 @@ with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
         oldData = data[start:end]
         data = data.replace(oldData, "\n| Package | Version | | |\n| ------- | ------- | ------- | ------- |\n"+"\n".join(flines))
         
+        start2, end2 = data.index(bgStart) + len(bgStart), data.index(bgEnd)-1
+        oldData2 = data[start2:end2]
+        nodeVersion, npmVersion = urllib.parse.urlencode(packages['engines']['node']), urllib.parse.urlencode(packages['engines']['npm'])
+        data = data.replace(oldData2, '\n' + f'![NodeJS](https://img.shields.io/badge/node-{nodeVersion}-brightgreen) ![NPM](https://img.shields.io/badge/npm-{npmVersion}-blue)')
+
         # Write new Data if changed
         if data != ref:
             with open(os.path.join(os.getcwd(), 'README.md'), 'w') as writable:
