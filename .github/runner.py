@@ -22,9 +22,7 @@ with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
             lines.append(f'| [{pkg}](https://www.npmjs.com/package/{pkg}) | `{ver}` |')
         start, end = data.index(plStart) + len(plStart), data.index(plEnd)-1
         oldData = data[start:end]
-        data = data.replace(oldData, f"""| Package | Version |
-| ------- | ------- |
-{"\n".join(lines)}""")
+        data = data.replace(oldData, "| Package | Version |\n| ------- | ------- |\n"+"\n".join(lines))
         if data != ref:
             with open(os.path.join(os.getcwd(), 'README.md'), 'w') as writable:
                 writable.write(data)
