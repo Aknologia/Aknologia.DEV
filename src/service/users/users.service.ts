@@ -13,7 +13,7 @@ declare module 'express-session' {
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(User.name) public readonly userModel: Model<UserDocument>,
+    @InjectModel('User') public readonly userModel: Model<UserDocument>,
   ) {}
 
   public async create(user: UserDocument): Promise<User> {
