@@ -4,7 +4,11 @@
 
 ---
 
+<!-- START -->
+
 | Package | Version |
 | ------- | ------- |
+
+<!-- END -->
 
 @DEPENDENCIES

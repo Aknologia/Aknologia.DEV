@@ -21,11 +21,3 @@ jobs:
         run: |
           python3 --version
           python3 ./.github/runner.py
-
-      - name: Commit Changes
-        run: |
-          git config --global user.name "github.actions"
-          git config --global user.email "actions@aknologia.dev"
-          git add .
-          git commit -m 'Update Files' || echo
-          git push
