@@ -1,9 +1,7 @@
 # Aknologia.DEV - API
 
 <!-- BADGE START -->
-
 ![NodeJS](https://img.shields.io/badge/node-%5E16.8.0-brightgreen) ![NPM](https://img.shields.io/badge/npm-%5E8.4.1-blue)
-
 <!-- BADGE END -->
 
 ### Scripts
