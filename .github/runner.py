@@ -43,7 +43,7 @@ with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
         
         start2, end2 = data.index(bgStart) + len(bgStart), data.index(bgEnd)-1
         oldData2 = data[start2:end2]
-        nodeVersion, npmVersion = urllib.parse.urlencode(packages['engines']['node']), urllib.parse.urlencode(packages['engines']['npm'])
+        nodeVersion, npmVersion = urllib.parse.quote_plus(packages['engines']['node']), urllib.parse.quote_plus(packages['engines']['npm'])
         data = data.replace(oldData2, '\n' + f'![NodeJS](https://img.shields.io/badge/node-{nodeVersion}-brightgreen) ![NPM](https://img.shields.io/badge/npm-{npmVersion}-blue)')
 
         # Write new Data if changed
