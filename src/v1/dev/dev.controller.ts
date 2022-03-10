@@ -4,11 +4,9 @@ import {
   Header,
   HttpCode,
   Logger,
-  Param,
-  Req,
   UseGuards,
 } from '@nestjs/common';
-import { CookieAdminAuthGuard } from 'src/guard/cookie-admin.guard';
+import { CookieAdminAuthGuard } from '../../guard/cookie-admin.guard';
 import * as newman from 'newman';
 import { readFileSync, readdirSync, unlinkSync } from 'fs';
 import { join } from 'path';

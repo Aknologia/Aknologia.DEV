@@ -1,12 +1,8 @@
 import { Model, Connection } from 'mongoose';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from 'src/db/schemas/user.schema';
-import { CreateUserDto } from 'src/dto/create-user.dto';
-import { AuthUserDto } from 'src/dto/auth-user.dto';
-import { compare, hash } from 'bcrypt';
-import { UserDto } from 'src/dto/user.dto';
-import { Request } from 'express';
+import { User, UserDocument } from '../../db/schemas/user.schema';
+import { UserDto } from '../../dto/user.dto';
 
 declare module 'express-session' {
   interface Session {

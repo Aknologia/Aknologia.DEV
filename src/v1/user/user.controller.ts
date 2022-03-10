@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
-import UserRequest from 'src/auth/user-request.interface';
-import { CookieAuthGuard } from 'src/guard/cookie.guard';
-import { UsersService } from 'src/service/users/users.service';
+import UserRequest from '../../auth/user-request.interface';
+import { CookieAuthGuard } from '../../guard/cookie.guard';
+import { UsersService } from '../../service/users/users.service';
 
 @Controller({
   path: 'user',
