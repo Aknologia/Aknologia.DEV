@@ -19,7 +19,7 @@ with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
 
         # Normalize Packages as Table Rows
         lines = [[], []]
-        depKeys = packages['dependencies'].keys()
+        depKeys = list(packages['dependencies'].keys())
         firstHalf = depKeys[:round(len(depKeys)/2)]
         latterHalf = depKeys[round(len(depKeys)/2):]
         for pkg in list(firstHalf):
