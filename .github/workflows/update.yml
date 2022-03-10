@@ -1,0 +1,33 @@
+name: Update
+
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron "5 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+
+      - name: Run Update Script
+        run: |
+          python3 --version
+          python3 ./.github/runner.py
+
+      - name: Commit Changes
+        run: |
+          git config --global user.name "github.actions"
+          git config --global user.email "actions@aknologia.dev"
+          git add .
+          git commit -m 'Update Files' || echo
+          git push
