@@ -13,7 +13,7 @@ def commit():
 plStart, plEnd = '<!-- START -->', '<!-- END -->';
 
 with open(os.path.join(os.getcwd(), 'package.json'), 'r') as packageFile:
-    packages = json.loads(packageFile)
+    packages = json.loads(packageFile.read())
     with open(os.path.join(os.getcwd(), 'README.md'), 'r') as readmeFile:
         data = readmeFile.read(); ref = data
         lines = []
