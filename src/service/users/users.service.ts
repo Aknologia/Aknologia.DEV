@@ -1,6 +1,6 @@
-import { Model, Connection } from 'mongoose';
+import { Model } from 'mongoose';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../../db/schemas/user.schema';
 import { UserDto } from '../../dto/user.dto';
 
@@ -13,7 +13,6 @@ declare module 'express-session' {
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectConnection() private connection: Connection,
     @InjectModel(User.name) public readonly userModel: Model<UserDocument>,
   ) {}
 
