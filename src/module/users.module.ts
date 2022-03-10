@@ -11,10 +11,7 @@ import { UserController } from '../v1/user/user.controller';
 
 @Module({
   imports: [
-    MongooseModule.forFeature(
-      [{ name: User.name, schema: UserSchema }],
-      'Users',
-    ),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule,
   ],
   controllers: [AuthController, UserController],
