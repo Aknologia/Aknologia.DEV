@@ -6,7 +6,8 @@
   "private": true,
   "license": "GPL-3.0-or-later",
   "engines": {
-    "node": "^17.6.0"
+    "node": "^16.8.0",
+    "npm": "^8.4.1"
   },
   "scripts": {
     "prebuild": "rimraf dist",
@@ -43,6 +44,7 @@
     "connect-mongo": "^4.6.0",
     "dotenv": "^16.0.0",
     "express-session": "^1.17.2",
+    "joi": "^17.6.0",
     "mongodb": "^4.4.0",
     "mongoose": "^6.2.3",
     "newman-reporter-html": "^1.0.5",
