@@ -4,8 +4,8 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalSerializer } from 'src/auth/local.serializer';
 import { LocalStrategy } from 'src/auth/local.strategy';
 import { User, UserSchema } from 'src/db/schemas/user.schema';
-import { AuthenticationService } from 'src/services/auth/auth.service';
-import { UsersService } from 'src/services/users/users.service';
+import { AuthenticationService } from 'src/service/auth/auth.service';
+import { UsersService } from 'src/service/users/users.service';
 import { AuthController } from 'src/v1/auth/auth.controller';
 import { UserController } from 'src/v1/user/user.controller';
 

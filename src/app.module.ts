@@ -6,8 +6,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UriProvider } from './db/db-uri.provider';
-import { DevModule } from './modules/dev.module';
-import { UsersModule } from './modules/users.module';
+import { DevModule } from './module/dev.module';
+import { UsersModule } from './module/users.module';
 
 @Module({
   imports: [

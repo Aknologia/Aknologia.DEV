@@ -10,12 +10,11 @@ import {
   UseInterceptors,
   Header,
 } from '@nestjs/common';
-import { Request } from 'express';
 import UserRequest from 'src/auth/user-request.interface';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { CookieAuthGuard } from 'src/guard/cookie.guard';
 import { LocalAuthGuard } from 'src/guard/local.guard';
-import { AuthenticationService } from 'src/services/auth/auth.service';
+import { AuthenticationService } from 'src/service/auth/auth.service';
 
 @Controller({
   path: 'auth',
